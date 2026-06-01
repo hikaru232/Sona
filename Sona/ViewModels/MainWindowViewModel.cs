@@ -68,9 +68,9 @@ namespace Sona.ViewModels
         }
 
         [RelayCommand]
-        public void OpenAddEditDialog()
+        public void OpenAddEditDialog(Song? song)
         {
-            var vm = new AddEditWindowViewModel(null);
+            var vm = new AddEditWindowViewModel(song);
             var dialog = new AddEditWindow();
             vm.CloseRequested += (result) => dialog.DialogResult = result;
 
@@ -81,13 +81,23 @@ namespace Sona.ViewModels
 
             if (dialog.DialogResult == true)
             {
-                Songs.Add(new Song
+                if (song == null)
                 {
-                    Name = vm.Name,
-                    FilePath = vm.FilePath,
-                    Volume = vm.Volume,
-                    Hotkey = vm.Hotkey
-                });
+                    Songs.Add(new Song
+                    {
+                        Name = vm.Name,
+                        FilePath = vm.FilePath,
+                        Volume = vm.Volume,
+                        Hotkey = vm.Hotkey
+                    });
+                }
+                else
+                {
+                    song.Name = vm.Name;
+                    song.FilePath = vm.FilePath;
+                    song.Volume = vm.Volume;
+                    song.Hotkey = vm.Hotkey;
+                }
             }
 
         }

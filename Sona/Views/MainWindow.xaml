@@ -25,13 +25,14 @@
                         <!--コマンド周りの書き方はこのままでいいか確認すること。-->
                         <Button Content="{Binding Name}" Width="200" Height="100" Margin="10"
                                 Command="{Binding DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}">
+                                CommandParameter="{Binding}"
+                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
                             <Button.ContextMenu>
                                 <ContextMenu>
-                                    <!--AddEditWindowが開かれないのを修正すること-->
+                                    <!--AddEditWindowが開かれないのを修正すること  ※修正したがこれが適切かを再度考えること-->
                                     <MenuItem Header="編集"
-                                              Command="{Binding DataContext.OpenAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                              CommandParameter="{Binding}"/>
+                                              Command="{Binding PlacementTarget.Tag.OpenAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
