@@ -56,7 +56,7 @@ namespace Sona.ViewModels
 
         //一旦ボタンは常に押せるようにして良いものとして、CanExecuteは常にTrueにしとく。
         [RelayCommand]
-        private async Task PlaySoundAsync(Song song)
+        private void PlaySound(Song song)
         {
             if (!File.Exists(song.FilePath))
             {
