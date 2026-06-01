@@ -31,6 +31,7 @@ namespace Sona.ViewModels
         }
 
         //音声を再生するメソッド等を書いていく
+        //ここを変更する。WASAPIを使う。
         private WaveOutEvent? _player;
         private AudioFileReader? _audioFile;
 
@@ -100,6 +101,12 @@ namespace Sona.ViewModels
                 }
             }
 
+        }
+
+        [RelayCommand]
+        public void OpenSettings()
+        {
+            var vm = new SettingsWindowViewModel();
         }
     }
 }
