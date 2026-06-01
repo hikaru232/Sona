@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:Sona.Views"
         mc:Ignorable="d"
         Title="設定" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <StackPanel Margin="20">
+        <TextBlock Text="設定" FontSize="36"
+           FontFamily="Cascadia Mono"
+           Margin="0,0,0,20"/>
+        <TextBlock Text="{Binding Settings.MasterVolume, StringFormat=音量: {0}%}" FontSize="12"/>
+        <Slider Value="{Binding Settings.MasterVolume, UpdateSourceTrigger=PropertyChanged}"
+                    Minimum="0" Maximum="100"
+                    Width="400"
+                    IsSnapToTickEnabled="True"
+                    TickFrequency="1"
+                    Margin="0,0,0,10"
+                    IsMoveToPointEnabled="True"/>
+    </StackPanel>
 </Window>

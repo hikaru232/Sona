@@ -15,7 +15,7 @@ using Sona.Views;
 namespace Sona.ViewModels
 {
     //とりあえず継承はせず、一度ここで必要なものを全部書く。他で必要になりそうなときに初めてViewModelBaseを作って継承させる。
-    partial class MainWindowViewModel : ObservableObject
+    public partial class MainWindowViewModel : ObservableObject
     {
         public ObservableCollection<Song> Songs { get; } = new();
 
@@ -34,6 +34,8 @@ namespace Sona.ViewModels
         //ここを変更する。WASAPIを使う。
         private WaveOutEvent? _player;
         private AudioFileReader? _audioFile;
+
+        private AppSetting Settings => AppSetting.Default;
 
         private void StopAndDispose()
         {
@@ -62,12 +64,13 @@ namespace Sona.ViewModels
 
             StopAndDispose();
             _audioFile = new AudioFileReader(song.FilePath);
-            _audioFile.Volume = (float)(song.Volume / 100f);
+            _audioFile.Volume = (float)(song.Volume / 100f) * (Settings.MasterVolume / 100f);
             _player = new WaveOutEvent();
             _player.Init(_audioFile);
             _player.Play();
         }
 
+        //AddEditDialogをMainWindowから開く(MVVMとしてはベストプラクティスではない)
         [RelayCommand]
         public void OpenAddEditDialog(Song? song)
         {
@@ -103,10 +106,5 @@ namespace Sona.ViewModels
 
         }
 
-        [RelayCommand]
-        public void OpenSettings()
-        {
-            var vm = new SettingsWindowViewModel();
-        }
     }
 }
