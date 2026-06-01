@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Sona.Models;
 using NAudio.Wave;
+using NAudio.CoreAudioApi;
 using System.Windows;
 using Sona.Views;
 
@@ -32,14 +33,17 @@ namespace Sona.ViewModels
 
         //音声を再生するメソッド等を書いていく
         //ここを変更する。WASAPIを使う。
-        private WaveOutEvent? _player;
+        private WasapiOut? _player;
         private AudioFileReader? _audioFile;
 
         private void StopAndDispose()
         {
-            _player?.Stop();
-            _player?.Dispose();
-            _player = null;
+            if (_player != null)
+            {
+                _player?.Stop();
+                _player?.Dispose();
+                _player = null;
+            }
 
             _audioFile?.Dispose();
             _audioFile = null;
@@ -52,20 +56,35 @@ namespace Sona.ViewModels
 
         //一旦ボタンは常に押せるようにして良いものとして、CanExecuteは常にTrueにしとく。
         [RelayCommand]
-        private void PlaySound(Song song)
+        private async Task PlaySoundAsync(Song song)
         {
             if (!File.Exists(song.FilePath))
             {
                 MessageBox.Show($"音声が見つかりません。ファイルを確認してください。{song.FilePath}", "エラー");
                 return;
             }
-
+                
             StopAndDispose();
-            _audioFile = new AudioFileReader(song.FilePath);
-            _audioFile.Volume = (float)(song.Volume / 100f);
-            _player = new WaveOutEvent();
-            _player.Init(_audioFile);
-            _player.Play();
+            
+            //ここのtry-catchは本当に必要か
+            try
+            {
+                _audioFile = new AudioFileReader(song.FilePath);
+                _audioFile.Volume = (float)(song.Volume / 100f);
+
+                //ここは既定のデバイスになっているが、Settingsから取得するように変更する
+                var enumerator = new MMDeviceEnumerator();
+                MMDevice defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+
+                _player = new WasapiOut(defaultDevice, AudioClientShareMode.Shared, true, 50);
+                _player.Init(_audioFile);
+                _player.Play();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"音声の再生に失敗しました。\n{ex.Message}", "エラー");
+                StopAndDispose();
+            }
         }
 
         [RelayCommand]
