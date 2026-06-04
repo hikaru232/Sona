@@ -14,6 +14,8 @@ namespace Sona.ViewModels
         public ObservableCollection<AudioDevice> AvailableDevices { get; } = new();
         public ObservableCollection<AudioDevice> SelectedDevices { get; } = new();
 
-        [ObservableProperty] private int _volume = 100;
+        public AppSettings Settings => AppSettings.Default;
+        
+        public SettingsViewModel() { }
     }
 }

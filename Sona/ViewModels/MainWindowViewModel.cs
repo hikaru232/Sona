@@ -28,7 +28,7 @@ namespace Sona.ViewModels
         }
 
         [RelayCommand]
-        private void ShowSettingsPage()
+        private void ShowSettings()
         {
             CurrentPage = _settingsPage;
         }
@@ -38,5 +38,13 @@ namespace Sona.ViewModels
         {
             _soundPadPage.ShowAddEditDialog(null);
         }
+
+        //[RelayCommand]
+        //private void ShowEditDialog()
+        //{
+        //    _soundPadPage.ShowAddEditDialog();
+        //}
+
+
     }
 }
