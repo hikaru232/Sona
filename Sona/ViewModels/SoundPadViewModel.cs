@@ -69,7 +69,7 @@ namespace Sona.ViewModels
             try
             {
                 _audioFile = new AudioFileReader(song.FilePath);
-                _audioFile.Volume = (float)(song.Volume / 100f);
+                _audioFile.Volume = (float)(song.Volume / 100f) * (AppSettings.Default.MasterVolume / 100f);
 
                 //ここは既定のデバイスになっているが、Settingsから取得するように変更する
                 var enumerator = new MMDeviceEnumerator();
