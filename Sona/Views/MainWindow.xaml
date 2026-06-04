@@ -7,53 +7,17 @@
         mc:Ignorable="d"
         Title="Sona" Height="800" Width="1200"
         MinHeight="300" MinWidth="400">
+
     <StackPanel Margin="20">
-        <TextBlock Text="Sona" FontSize="36"
-                   FontFamily="Cascadia Mono"
-                   Margin="0,0,0,20"/>
-
-        <ListBox ItemsSource="{Binding Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel MaxWidth="700" HorizontalAlignment="Center"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <!--コマンド周りの書き方はこのままでいいか確認すること。-->
-                        <Button Content="{Binding Name}" Width="200" Height="100" Margin="10"
-                                Command="{Binding DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}"
-                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
-                            <Button.ContextMenu>
-                                <ContextMenu>
-                                    <!--AddEditWindowが開かれないのを修正すること  ※修正したがこれが適切かを再度考えること-->
-                                    <MenuItem Header="編集"
-                                              Command="{Binding PlacementTarget.Tag.OpenAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
-                                </ContextMenu>
-                            </Button.ContextMenu>
-                        </Button>
-                        <Slider Value="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"
-                                Minimum="0" Maximum="100" Width="200"
-                                IsSnapToTickEnabled="True"
-                                TickFrequency="1"
-                                IsMoveToPointEnabled="True"/>
-                        <TextBlock Text="{Binding Volume, StringFormat=音量: {0}%}"
-                                   FontSize="14"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    <DockPanel>
-        <UniformGrid DockPanel.Dock="Bottom" Columns="2" Height="60" Margin="0,20,0,0">
-                <Button Content="追加" Command="{Binding OpenAddEditDialogCommand}"
+        <ContentControl Content="{Binding CurrentPage}"/>
+        
+        <DockPanel>
+            <UniformGrid DockPanel.Dock="Bottom" Columns="2" Height="60" Margin="0,20,0,0">
+                <Button Content="追加" Command="{Binding ShowAddDialogCommand}"
                         Width="100" Height="40"/>
-                <Button Content="追加" Command="{Binding OpenAddEditDialogCommand}"
+                <Button Content="追加" Command="{Binding ShowAddDialogCommand}"
                         Width="100" Height="40"/>
             </UniformGrid>
-    </DockPanel>
+        </DockPanel>
     </StackPanel>
 </Window>

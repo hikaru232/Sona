@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Sona.Views
 {
     /// <summary>
-    /// ManagementWindow.xaml の相互作用ロジック
+    /// SettingsView.xaml の相互作用ロジック
     /// </summary>
-    public partial class ManagementWindow : Window
+    public partial class SettingsView : UserControl
     {
-        public ManagementWindow()
+        public SettingsView()
         {
             InitializeComponent();
         }

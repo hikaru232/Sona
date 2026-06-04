@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Sona.Views
 {
     /// <summary>
-    /// SettingsWindow.xaml の相互作用ロジック
+    /// SoundPadView.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SoundPadView : UserControl
     {
-        public SettingsWindow()
+        public SoundPadView()
         {
             InitializeComponent();
         }
