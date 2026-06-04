@@ -11,7 +11,8 @@
            FontFamily="Cascadia Mono"
            Margin="0,0,0,20"/>
 
-        <ListBox ItemsSource="{Binding Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox ItemsSource="{Binding Songs}" MaxHeight="360"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel MaxWidth="700" HorizontalAlignment="Center"/>
@@ -28,9 +29,8 @@
                         Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
                             <Button.ContextMenu>
                                 <ContextMenu>
-                                    <!--AddEditWindowが開かれないのを修正すること  ※修正したがこれが適切かを再度考えること-->
                                     <MenuItem Header="編集"
-                                      Command="{Binding PlacementTarget.Tag.OpenAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                      Command="{Binding PlacementTarget.Tag.ShowAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                                       CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
