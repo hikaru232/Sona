@@ -10,15 +10,24 @@
         <TextBlock Text="Setting" FontSize="36"
                    FontFamily="Cascadia Mono"
                    Margin="0,0,0,20"/>
-        <StackPanel MaxWidth="400">
+        <StackPanel MaxWidth="300">
             <TextBlock Text="{Binding Settings.MasterVolume, StringFormat=全体の音量: {0}%}" FontSize="12"/>
             <Slider Value="{Binding Settings.MasterVolume, UpdateSourceTrigger=PropertyChanged}"
                     Minimum="0" Maximum="100"
-                    Width="400"
+                    Width="300"
                     IsSnapToTickEnabled="True"
                     TickFrequency="1"
                     Margin="0,0,0,10"
                     IsMoveToPointEnabled="True"/>
+
+            <ListBox ItemsSource="{Binding AvailableDevices}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Name}"
+                                  IsChecked="{Binding IsSelected}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

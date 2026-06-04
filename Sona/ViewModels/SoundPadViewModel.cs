@@ -73,6 +73,7 @@ namespace Sona.ViewModels
 
                 //ここは既定のデバイスになっているが、Settingsから取得するように変更する
                 var enumerator = new MMDeviceEnumerator();
+                //変更する。もし再生に支障があれば、ここに問題がある。
                 MMDevice defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
 
                 _player = new WasapiOut(defaultDevice, AudioClientShareMode.Shared, true, 50);

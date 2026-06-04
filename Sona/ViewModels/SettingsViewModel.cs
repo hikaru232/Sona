@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using NAudio.CoreAudioApi;
 using Sona.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,25 @@ namespace Sona.ViewModels
 
         public AppSettings Settings => AppSettings.Default;
         
-        public SettingsViewModel() { }
+        public SettingsViewModel()
+        {
+            LoadDevices();
+        }
+
+        private void LoadDevices()
+        {
+            var enumerator = new MMDeviceEnumerator();
+            var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
+
+            AvailableDevices.Clear();
+            foreach (var device in devices)
+            {
+                AvailableDevices.Add(new AudioDevice
+                {
+                    Name = device.FriendlyName,
+                    Id = device.ID
+                });
+            }
+        }
     }
 }
