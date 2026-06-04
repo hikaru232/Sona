@@ -6,7 +6,45 @@
              xmlns:local="clr-namespace:Sona.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <StackPanel>
+        <TextBlock Text="Sona" FontSize="36"
+           FontFamily="Cascadia Mono"
+           Margin="0,0,0,20"/>
+
+        <ListBox ItemsSource="{Binding Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel MaxWidth="700" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <!--コマンド周りの書き方はこのままでいいか確認すること。-->
+                        <Button Content="{Binding Name}" Width="200" Height="100" Margin="10"
+                        Command="{Binding DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                        CommandParameter="{Binding}"
+                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <!--AddEditWindowが開かれないのを修正すること  ※修正したがこれが適切かを再度考えること-->
+                                    <MenuItem Header="編集"
+                                      Command="{Binding PlacementTarget.Tag.OpenAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
+                        </Button>
+                        <Slider Value="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"
+                        Minimum="0" Maximum="100" Width="200"
+                        IsSnapToTickEnabled="True"
+                        TickFrequency="1"
+                        IsMoveToPointEnabled="True"/>
+                        <TextBlock Text="{Binding Volume, StringFormat=音量: {0}%}"
+                           FontSize="14"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
 </UserControl>

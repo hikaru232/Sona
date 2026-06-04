@@ -87,7 +87,7 @@ namespace Sona.ViewModels
         }
 
         [RelayCommand]
-        public void OpenAddEditDialog(Song? song)
+        public void ShowAddEditDialog(Song? song)
         {
             var vm = new AddEditWindowViewModel(song);
             var dialog = new AddEditWindow();
