@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using NAudio.CoreAudioApi;
 using Sona.Models;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,28 @@ namespace Sona.ViewModels
     public partial class SettingsViewModel : ObservableObject
     {
         public ObservableCollection<AudioDevice> AvailableDevices { get; } = new();
-        public ObservableCollection<AudioDevice> SelectedDevices { get; } = new();
 
         public AppSettings Settings => AppSettings.Default;
         
-        public SettingsViewModel() { }
+        public SettingsViewModel()
+        {
+            LoadDevices();
+        }
+
+        private void LoadDevices()
+        {
+            var enumerator = new MMDeviceEnumerator();
+            var devices = enumerator.EnumerateAudioEndPoints(DataFlow.Render, DeviceState.Active);
+
+            AvailableDevices.Clear();
+            foreach (var device in devices)
+            {
+                AvailableDevices.Add(new AudioDevice
+                {
+                    Name = device.FriendlyName,
+                    Id = device.ID
+                });
+            }
+        }
     }
 }

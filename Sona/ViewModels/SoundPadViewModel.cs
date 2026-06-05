@@ -21,7 +21,7 @@ namespace Sona.ViewModels
 
         private Song _test1 = new Song { FilePath = @"C:\Windows\Media\chimes.wav", Name = "test1", Volume = 100 };
         private Song _test2 = new Song { FilePath = @"C:\Windows\Media\tada.wav", Name = "test2", Volume = 80 };
-        private Song _test3 = new Song { FilePath = @"C:\Windows\Media\tadeee.wav", Name = "test3", Volume = 90 };
+        private Song _test3 = new Song { FilePath = @"C:\Users\hikar\Downloads\要らないもの\Morning.mp3", Name = "test3", Volume = 10 };
 
         public SoundPadViewModel()
         {
@@ -32,20 +32,23 @@ namespace Sona.ViewModels
 
         //音声を再生するメソッド等を書いていく
         //ここを変更する。WASAPIを使う。
-        private WasapiOut? _player;
-        private AudioFileReader? _audioFile;
+        private readonly List<WasapiOut> _player = new();
+        private readonly List<AudioFileReader> _audioFile = new();
 
         private void StopAndDispose()
         {
-            if (_player != null)
+            foreach (var player in _player)
             {
-                _player?.Stop();
-                _player?.Dispose();
-                _player = null;
+                player.Stop();
+                player.Dispose();
             }
+            _player.Clear();
 
-            _audioFile?.Dispose();
-            _audioFile = null;
+            foreach (var audioFile in _audioFile)
+            {
+                audioFile.Dispose();
+            }
+            _audioFile.Clear();
         }
 
         public void CleanUp()
@@ -68,16 +71,22 @@ namespace Sona.ViewModels
             //ここのtry-catchは本当に必要か
             try
             {
-                _audioFile = new AudioFileReader(song.FilePath);
-                _audioFile.Volume = (float)(song.Volume / 100f) * (AppSettings.Default.MasterVolume / 100f);
-
-                //ここは既定のデバイスになっているが、Settingsから取得するように変更する
+                var selectedIds = AppSettings.Default.SelectedDeviceIds;
                 var enumerator = new MMDeviceEnumerator();
-                MMDevice defaultDevice = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+                
+                foreach (var deviceId in selectedIds)
+                {
+                    var device = enumerator.GetDevice(deviceId);
+                    var audioFile = new AudioFileReader(song.FilePath);
+                    audioFile.Volume = (float)(song.Volume / 100f) * (AppSettings.Default.MasterVolume / 100f);
 
-                _player = new WasapiOut(defaultDevice, AudioClientShareMode.Shared, true, 50);
-                _player.Init(_audioFile);
-                _player.Play();
+                    var player = new WasapiOut(device, AudioClientShareMode.Shared, true, 50);
+                    player.Init(audioFile);
+                    player.Play();
+
+                    _player.Add(player);
+                    _audioFile.Add(audioFile);
+                }
             }
             catch (Exception ex)
             {
