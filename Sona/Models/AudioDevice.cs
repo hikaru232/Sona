@@ -12,6 +12,14 @@ namespace Sona.Models
         [ObservableProperty] private string _name = "";
         [ObservableProperty] private string _id = "";
         [ObservableProperty] private bool _isSelected = false;
+
+        partial void OnIsSelectedChanged(bool value)
+        {
+            if (value)
+                AppSettings.Default.SelectedDeviceIds.Add(Id);
+            else
+                AppSettings.Default.SelectedDeviceIds.Remove(Id);
+        }
         //今後増やす予定
         //Volumeのみだが
     }
