@@ -20,6 +20,15 @@ namespace Sona.ViewModels
         public SettingsViewModel()
         {
             LoadDevices();
+            DataService.LoadSettings();
+            var saveIds = AppSettings.Default.SelectedDeviceIds;
+            foreach (var device in AvailableDevices)
+            {
+                if (saveIds.Contains(device.Id))
+                {
+                    device.IsSelected = true;
+                }
+            }
         }
 
         private void LoadDevices()
@@ -36,6 +45,12 @@ namespace Sona.ViewModels
                     Id = device.ID
                 });
             }
+        }
+
+        [RelayCommand]
+        public void SaveSettings()
+        {
+            DataService.SaveSettings(AppSettings.Default);
         }
     }
 }
