@@ -16,7 +16,12 @@ namespace Sona.Models
         partial void OnIsSelectedChanged(bool value)
         {
             if (value)
-                AppSettings.Default.SelectedDeviceIds.Add(Id);
+            {
+                if (!AppSettings.Default.SelectedDeviceIds.Contains(Id))
+                {
+                    AppSettings.Default.SelectedDeviceIds.Add(Id);
+                }
+            }
             else
                 AppSettings.Default.SelectedDeviceIds.Remove(Id);
         }

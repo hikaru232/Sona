@@ -19,15 +19,24 @@ namespace Sona.ViewModels
     {
         public ObservableCollection<Song> Songs { get; } = new();
 
-        private Song _test1 = new Song { FilePath = @"C:\Windows\Media\chimes.wav", Name = "test1", Volume = 100 };
-        private Song _test2 = new Song { FilePath = @"C:\Windows\Media\tada.wav", Name = "test2", Volume = 80 };
-        private Song _test3 = new Song { FilePath = @"C:\Users\hikar\Downloads\要らないもの\Morning.mp3", Name = "test3", Volume = 10 };
-
         public SoundPadViewModel()
         {
-            Songs.Add(_test1);
-            Songs.Add(_test2);
-            Songs.Add(_test3);
+            var loadedSongs = DataService.LoadSongs();
+
+            if (loadedSongs == null)
+            {
+                Songs.Add(new Song { FilePath = @"C:\Windows\Media\chimes.wav", Name = "test1", Volume = 100 });
+                Songs.Add(new Song { FilePath = @"C:\Windows\Media\tada.wav", Name = "test2", Volume = 80 });
+                Songs.Add(new Song { FilePath = @"C:\Users\hikar\Downloads\要らないもの\Morning.mp3", Name = "test3", Volume = 10 });
+                DataService.SaveSongs(Songs);
+            }
+            else
+            {
+                foreach (var song in loadedSongs)
+                {
+                    Songs.Add(song);
+                }
+            }
         }
 
         //音声を再生するメソッド等を書いていく
@@ -127,7 +136,7 @@ namespace Sona.ViewModels
                     song.Hotkey = vm.Hotkey;
                 }
             }
-
+            DataService.SaveSongs(Songs);
         }
 
     }

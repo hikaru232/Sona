@@ -20,7 +20,7 @@
                     Margin="0,0,0,10"
                     IsMoveToPointEnabled="True"/>
 
-            <ListBox ItemsSource="{Binding AvailableDevices}">
+            <ListBox ItemsSource="{Binding AvailableDevices}" Margin="0,0,0,10">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding Name}"
@@ -28,6 +28,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+
+            <Button Content="保存" Height="50"
+                    Command="{Binding SaveSettingsCommand}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>
