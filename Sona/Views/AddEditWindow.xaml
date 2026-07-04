@@ -9,10 +9,10 @@
         WindowStartupLocation="CenterOwner">
     <StackPanel Margin="20">
         <StackPanel MaxWidth="400">
-            <TextBlock Text="名前" FontSize="12"/>
+            <TextBlock Text="名前" FontSize="12" Margin="0,0,0,5"/>
             <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" FontSize="14" VerticalAlignment="Center"
                      Width="400" Height="20" Margin="0,0,0,10"/>
-            <TextBlock Text="{Binding Volume, StringFormat=音量: {0}%}" FontSize="12"/>
+            <TextBlock Text="{Binding Volume, StringFormat=音量: {0}%}" FontSize="12" Margin="0,0,0,5"/>
             <Slider Value="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"
                     Minimum="0" Maximum="100"
                     Width="400"
@@ -20,9 +20,13 @@
                     TickFrequency="1"
                     Margin="0,0,0,10"
                     IsMoveToPointEnabled="True"/>
-            <TextBlock Text="ファイル" FontSize="12"/>
-            <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}"  FontSize="14" VerticalAlignment="Center"
-                     Width="400" Height="20" Margin="0,0,0,10"/>
+            <TextBlock Text="ファイル" FontSize="12" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Button Content="参照" Command="{Binding ShowDialogCommand}" VerticalAlignment="Center"
+                        Width="50" Height="20" Margin="0,0,5,0"/>
+                <TextBox Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}" FontSize="14" VerticalAlignment="Center"
+                         Width="345" Height="20"/>
+            </StackPanel>
         </StackPanel>
 
         <DockPanel>

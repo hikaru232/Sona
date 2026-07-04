@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Win32;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Sona.Models;
@@ -35,6 +37,22 @@ namespace Sona.ViewModels
             else
             {
                 IsEditMode = false;
+            }
+        }
+
+        //参照ボタン
+        [RelayCommand]
+        private void ShowDialog()
+        {
+            var dlg = new OpenFileDialog();
+            dlg.FileName = "song";
+            dlg.Filter = "Song Files|*.wav;*.mp3;";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                FilePath = dlg.FileName;
             }
         }
 

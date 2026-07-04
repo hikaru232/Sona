@@ -24,24 +24,27 @@
                     <StackPanel>
                         <!--コマンド周りの書き方はこのままでいいか確認すること。-->
                         <Button Content="{Binding Name}" Width="200" Height="100" Margin="10"
-                        Command="{Binding DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                        CommandParameter="{Binding}"
-                        Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
+                                Command="{Binding DataContext.PlaySoundCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                CommandParameter="{Binding}"
+                                Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListBox}}">
                             <Button.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="編集"
-                                      Command="{Binding PlacementTarget.Tag.ShowAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                                      CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                              Command="{Binding PlacementTarget.Tag.ShowAddEditDialogCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                                    <MenuItem Header="削除"
+                                              Command="{Binding PlacementTarget.Tag.RemoveSongCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
+                                              CommandParameter="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
                         </Button>
                         <Slider Value="{Binding Volume, UpdateSourceTrigger=PropertyChanged}"
-                        Minimum="0" Maximum="100" Width="200"
-                        IsSnapToTickEnabled="True"
-                        TickFrequency="1"
-                        IsMoveToPointEnabled="True"/>
+                                Minimum="0" Maximum="100" Width="200"
+                                IsSnapToTickEnabled="True"
+                                TickFrequency="1"
+                                IsMoveToPointEnabled="True"/>
                         <TextBlock Text="{Binding Volume, StringFormat=音量: {0}%}"
-                           FontSize="14"/>
+                                   FontSize="14"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

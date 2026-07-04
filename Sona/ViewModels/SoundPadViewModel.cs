@@ -139,5 +139,21 @@ namespace Sona.ViewModels
             DataService.SaveSongs(Songs);
         }
 
+        [RelayCommand]
+        public void RemoveSong(Song? song)
+        {
+            if (song == null) return;
+
+            var result = MessageBox.Show(
+                $"「{song.Name}」をリストから削除してもよろしいですか？\n※実際の音声ファイルは削除されません。", "削除の確認",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Songs.Remove(song);
+                DataService.SaveSongs(Songs);
+            }
+        }
     }
 }
