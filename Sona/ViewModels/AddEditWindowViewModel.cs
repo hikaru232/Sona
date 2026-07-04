@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Sona.Models;
+using System.IO;
 
 namespace Sona.ViewModels
 {
@@ -52,6 +53,7 @@ namespace Sona.ViewModels
 
             if (result == true)
             {
+                Name = Path.GetFileNameWithoutExtension(dlg.FileName);
                 FilePath = dlg.FileName;
             }
         }
